@@ -28,8 +28,9 @@ pipeline {
         stage('Unit Test') {
             steps {
                 sh '''
-                python3 -m pip install --user -r requirements.txt
-                python3 -m pip install --user pytest requests
+		python3 -m venv venv
+		. venv/bin/activate
+		pip install -r requirements.txt                
                 pytest tests/test_api.py
                 '''
             }
@@ -38,7 +39,7 @@ pipeline {
         stage('UI Test') {
             steps {
                 sh '''
-                python3 -m pip install --user selenium pytest
+		. venv/bin/activate
                 pytest tests/test_ui.py
                 '''
             }

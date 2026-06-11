@@ -13,6 +13,8 @@ COPY templates ./templates
 
 RUN mkdir -p /app/logs
 
+COPY tests ./tests
+
 EXPOSE 5000
 
 CMD ["python", "app.py"]

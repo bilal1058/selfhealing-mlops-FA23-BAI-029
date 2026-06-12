@@ -1,6 +1,7 @@
+import os
 import requests
 
-BASE_URL = "http://13.207.67.12:32500"
+BASE_URL = os.getenv("BASE_URL", "http://localhost:5000")
 
 def test_health_endpoint():
     r = requests.get(f"{BASE_URL}/health", timeout=10)

@@ -4,6 +4,7 @@ pipeline {
     environment {
         DOCKER_IMAGE_UNSTABLE = "bilal888/sentiment-api:unstable"
         DOCKER_IMAGE_STABLE = "bilal888/sentiment-api:stable"
+        BASE_URL = "http://localhost:5000"
     }
 
     stages {
@@ -27,16 +28,24 @@ pipeline {
 
         stage('Unit Test') {
             steps {
-              sh '''
-		docker exec sentiment-test pytest tests/test_api.py'''
+                sh '''
+                rm -rf venv
+                python3 -m venv venv
+                . venv/bin/activate
+                pip install --upgrade pip
+                pip install pytest requests
+                BASE_URL=http://localhost:5000 pytest tests/test_api.py
+                '''
             }
         }
 
         stage('UI Test') {
             steps {
                 sh '''
-		        docker exec sentiment-test python -m pytest tests/test_ui.py || true
-                  '''
+                . venv/bin/activate
+                pip install selenium
+                BASE_URL=http://localhost:5000 pytest tests/test_ui.py
+                '''
             }
         }
 
@@ -67,8 +76,11 @@ pipeline {
                 kubectl apply -f k8s/blue-deployment.yaml
                 kubectl apply -f k8s/green-deployment.yaml
                 kubectl apply -f k8s/service.yaml
+                kubectl rollout status deployment/sentiment-blue-deployment --timeout=300s
+                kubectl rollout status deployment/sentiment-green-deployment --timeout=300s
                 kubectl get pods
                 kubectl get svc sentiment-api-service
+                curl -f http://13.207.67.12:32500/health
                 '''
             }
         }

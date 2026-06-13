@@ -59,7 +59,7 @@ pipeline {
                     docker push $DOCKER_IMAGE_UNSTABLE
 
                     git fetch origin stable-fallback
-                    git checkout stable-fallback
+	            git checkout -B stable-fallback origin/stable-fallback
                     docker build -t $DOCKER_IMAGE_STABLE .
                     docker push $DOCKER_IMAGE_STABLE
 

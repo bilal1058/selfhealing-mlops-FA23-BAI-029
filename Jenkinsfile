@@ -63,7 +63,7 @@ pipeline {
                     docker build -t $DOCKER_IMAGE_STABLE .
                     docker push $DOCKER_IMAGE_STABLE
 
-                    git checkout main
+                    git checkout -B main origin/main
                     '''
                 }
             }

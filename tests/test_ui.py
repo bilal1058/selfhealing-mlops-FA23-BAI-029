@@ -4,7 +4,7 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
 
-BASE_URL = os.getenv("BASE_URL", "http://localhost:5000")
+BASE_URL = os.getenv("BASE_URL", "http://13.207.67.12:5000")
 
 def test_frontend_sentiment():
     options = Options()
@@ -13,17 +13,13 @@ def test_frontend_sentiment():
     options.add_argument("--disable-dev-shm-usage")
 
     driver = webdriver.Chrome(options=options)
-
     try:
         driver.get(BASE_URL)
-        driver.find_element(By.ID, "text-input").send_keys(
-            "Spotlessly clean rooms with attentive staff and superb amenities throughout"
-        )
+        driver.find_element(By.ID, "text-input").send_keys("This hotel was amazing")
         driver.find_element(By.ID, "submit-btn").click()
         time.sleep(3)
-
-        output = driver.find_element(By.ID, "result-output").text
-        assert output != ""
-        assert "POSITIVE" in output or "NEGATIVE" in output or "Confidence" in output
+        result = driver.find_element(By.ID, "result-output").text
+        assert result != ""
+        assert "POSITIVE" in result or "NEGATIVE" in result or "Confidence" in result
     finally:
         driver.quit()

@@ -1,7 +1,7 @@
 import os
 import requests
 
-BASE_URL = os.getenv("BASE_URL", "http://localhost:5000")
+BASE_URL = os.getenv("BASE_URL", "http://13.207.67.12:5000")
 
 def test_health_endpoint():
     r = requests.get(f"{BASE_URL}/health", timeout=10)
@@ -25,7 +25,7 @@ def test_predict_returns_label_and_confidence():
 def test_predict_negative_text():
     r = requests.post(
         f"{BASE_URL}/predict",
-        json={"text": "The hotel room was terrible and the service was awful"},
+        json={"text": "This hotel was terrible and the service was awful"},
         timeout=20
     )
     assert r.status_code == 200
@@ -33,5 +33,4 @@ def test_predict_negative_text():
 def test_health_returns_model_version_unstable():
     r = requests.get(f"{BASE_URL}/health", timeout=10)
     assert r.status_code == 200
-    data = r.json()
-    assert data["model_version"] == "unstable-v1"
+    assert r.json()["model_version"] == "unstable-v1"

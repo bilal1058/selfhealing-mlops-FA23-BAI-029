@@ -3,7 +3,8 @@ FROM python:3.11-slim
 WORKDIR /app
 
 COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+
+RUN pip install --no-cache-dir flask==3.0.3 requests==2.32.3 prometheus-client==0.20.0 pytest==8.2.2 selenium==4.21.0
 
 COPY app.py .
 

@@ -2,7 +2,7 @@ import time
 import requests
 from prometheus_client import start_http_server, Gauge
 
-APP_URL = "http://13.207.67.12:32500/api/latest-confidence"
+APP_URL = "http://localhost:32500/api/latest-confidence"
 
 confidence_gauge = Gauge(
     "prediction_confidence_score",

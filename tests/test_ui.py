@@ -4,7 +4,7 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
 
-BASE_URL = os.getenv("BASE_URL", "http://13.207.67.12:5000")
+BASE_URL = os.getenv("BASE_URL", "http://35.154.1.53:5000")
 
 def test_frontend_sentiment():
     options = Options()

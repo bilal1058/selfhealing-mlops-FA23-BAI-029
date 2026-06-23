@@ -47,7 +47,7 @@ pipeline {
             }
         }
 
-            stage('UI Test') {
+        stage('UI Test') {
                 steps {
                     sh '''
                         echo "=== Building test runner image ==="
@@ -62,7 +62,7 @@ pipeline {
                             pytest tests/test_ui.py -v
                     '''
                 }
-            }
+        }
 
         stage('UI Test') {
             steps {

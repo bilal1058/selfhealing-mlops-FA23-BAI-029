@@ -1,13 +1,14 @@
 pipeline {
     agent any
-
+    
+    environment {
+        KUBECTL = '/usr/local/bin/kubectl'
+    }
+    
     stages {
         stage('Switch Traffic to Stable (Green)') {
             steps {
-                sh '''
-                kubectl patch service sentiment-api-service -p '{"spec":{"selector":{"app":"sentiment-api","slot":"green"}}}'
-                kubectl get service sentiment-api-service -o yaml
-                '''
+                sh '${KUBECTL} patch service sentiment-api-service -p \'{"spec":{"selector":{"app":"sentiment-api","slot":"green"}}}\''
             }
         }
     }

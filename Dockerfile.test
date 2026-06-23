@@ -1,0 +1,23 @@
+# Test runner image (Selenium UI tests).
+# Has Python + Chrome + chromedriver (auto-managed by Selenium 4).
+# Built once in CI then reused for the "UI Test" stage.
+FROM python:3.10-slim
+
+ENV DEBIAN_FRONTEND=noninteractive
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+        wget gnupg curl unzip ca-certificates \
+    && wget -q -O /tmp/google-key.pub https://dl-ssl.google.com/linux/linux_signing_key.pub \
+    && gpg --dearmor < /tmp/google-key.pub > /usr/share/keyrings/google-chrome.gpg \
+    && echo "deb [arch=amd64 signed-by=/usr/share/keyrings/google-chrome.gpg] http://dl.google.com/linux/chrome/deb/ stable main" \
+        > /etc/apt/sources.list.d/google-chrome.list \
+    && apt-get update && apt-get install -y --no-install-recommends \
+        google-chrome-stable \
+    && rm -rf /var/lib/apt/lists/* /tmp/google-key.pub
+
+RUN pip install --no-cache-dir \
+        pytest==8.2.2 \
+        selenium==4.21.0 \
+        requests==2.32.3
+
+WORKDIR /workspace

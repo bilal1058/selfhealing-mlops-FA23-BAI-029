@@ -1,7 +1,7 @@
 import os
 import requests
 
-BASE_URL = os.getenv("BASE_URL", "http://35.154.1.53:5000")
+BASE_URL = os.getenv("BASE_URL", "http://YOUR_EC2_IP:5000")
 
 def test_health_endpoint():
     r = requests.get(f"{BASE_URL}/health", timeout=10)
